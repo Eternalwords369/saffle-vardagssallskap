@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-linen: #f7f3ec;
+  --color-paper: #fffdf9;
+  --color-sage: #e7ece4;
+  --color-line: #ddd5c8;
+  --color-ink: #23201c;
+  --color-ink-soft: #57514a;
+  --color-spruce: #2e4a3d;
+  --color-spruce-dark: #20352b;
+  --color-clay: #a14f30;
+  --color-clay-soft: #f3e3d8;
+  --color-error: #a3261b;
+
+  --font-sans: var(--font-body), system-ui, sans-serif;
+  --font-serif: var(--font-heading), Georgia, "Times New Roman", serif;
+}
+
+html {
+  /* 18 px grundstorlek – lättläst även utan förstoring. */
+  font-size: 112.5%;
+  scroll-padding-top: 6rem;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-linen);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-clay);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
