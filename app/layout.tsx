@@ -30,9 +30,10 @@ export const metadata: Metadata = {
   keywords: [
     "sällskap Säffle",
     "vardagshjälp Säffle",
-    "promenadsällskap",
+    "promenadsällskap Säffle",
     "hushållshjälp Säffle",
-    "sällskapstjänst Värmland",
+    "RUT Säffle",
+    "sällskap äldre Värmland",
   ],
   alternates: { canonical: "/" },
   openGraph: {

@@ -6,6 +6,14 @@ export function pageMetadata(path: string, title: string, description: string): 
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { type: "website", locale: "sv_SE", siteName: site.name, title, description, url: path },
+    openGraph: {
+      type: "website",
+      locale: "sv_SE",
+      siteName: site.name,
+      title,
+      description,
+      url: path,
+      images: [{ url: "/opengraph-image", width: 1200, height: 630 }],
+    },
   };
 }

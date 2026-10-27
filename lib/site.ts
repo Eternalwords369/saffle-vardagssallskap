@@ -26,6 +26,7 @@ export const site = {
 export const owner = {
   name: "[Förnamn Efternamn]",
   background: "[Två–tre meningar om dig: var du bor, vad du har arbetat med och vad du tycker om att göra.]",
+  why: "[Varför du startade: till exempel något du själv har sett hos en förälder, en granne eller i ett tidigare jobb.]",
   photo: null as string | null,
 };
 
