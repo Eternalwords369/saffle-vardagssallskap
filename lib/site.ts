@@ -15,10 +15,8 @@ export const site = {
     display: "076-155 20 20",
     href: "tel:+46761552020",
   },
-  // BEKRÄFTA: Gmail tillåter inte å/ä/ö i adresser. Den planerade adressen
-  // "Vardagssällskap@gmail.com" kan därför inte skapas som den är skriven.
-  // Kontrollera vilken adress som faktiskt registreras och uppdatera här.
-  email: "vardagssallskap@gmail.com",
+  // BEKRÄFTA: att kontot är skapat och tar emot mejl.
+  email: "Vardagssallskap@gmail.com",
 } as const;
 
 export const nav = [

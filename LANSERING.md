@@ -5,10 +5,8 @@ Allt nedan måste vara bekräftat innan webbplatsen marknadsförs. Uppgifterna
 
 ## Måste bekräftas
 
-- [ ] **E-postadress.** Gmail tillåter inte å, ä eller ö i adresser, så
-      `Vardagssällskap@gmail.com` kan inte skapas. Webbplatsen använder
-      `vardagssallskap@gmail.com` som förslag. Registrera adressen, kontrollera
-      att den tar emot mejl och ändra `site.email` om den blir en annan.
+- [ ] **E-postadress.** Webbplatsen använder `Vardagssallskap@gmail.com`.
+      Kontrollera att kontot är skapat och att ett testmejl kommer fram.
 - [ ] **Telefon.** Ring 076-155 20 20 från en annan telefon och kontrollera
       att samtalet kommer fram och att röstbrevlådan har ett svenskt
       välkomstmeddelande.
@@ -37,7 +35,8 @@ Allt nedan måste vara bekräftat innan webbplatsen marknadsförs. Uppgifterna
       ingenting om RUT på webbplatsen förrän det är kontrollerat.
 - [ ] Skapa en profil i Google Företagsprofil (lokal sökning) med samma namn,
       telefonnummer och webbadress som på webbplatsen.
-- [ ] Sätt `NEXT_PUBLIC_SITE_URL` i Vercel när en egen domän finns.
+- [ ] Publicera på Vercel (vilande tills vidare – kontots gratisplan har redan
+      andra projekt). Sätt `NEXT_PUBLIC_SITE_URL` när en egen domän finns.
 - [ ] Lägg inte till påståenden om försäkring, F-skatt, certifieringar eller
       liknande förrän de är verifierade.
 
