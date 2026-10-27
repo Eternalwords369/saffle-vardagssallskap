@@ -1,104 +1,72 @@
 import type { Metadata } from "next";
 import { ContactActions } from "@/components/ContactActions";
 import { PageIntro } from "@/components/PageIntro";
+import { pageMetadata } from "@/lib/metadata";
+import { notIncluded, otherProviders, services } from "@/lib/site";
 import { container } from "@/lib/ui";
 
-export const metadata: Metadata = {
-  title: "Tjänster – samtal, promenader och vardagshjälp",
-  description:
-    "Sällskap och lättare vardagshjälp i Säffle: samtal, promenader, aktiviteter, lättare hushållshjälp och vardagsplanering.",
-  alternates: { canonical: "/tjanster" },
-};
-
-const services = [
-  {
-    id: "samtal",
-    title: "Samtal och sällskap",
-    lead: "Att ha någon att prata med gör skillnad för hela veckan.",
-    examples: ["Fika och prata om stort och smått", "Läsa tidningen eller en bok tillsammans", "Spela kort, lösa korsord eller titta i fotoalbum"],
-  },
-  {
-    id: "promenader",
-    title: "Promenader",
-    lead: "Frisk luft och rörelse i den takt som känns bra – med någon vid sidan.",
-    examples: ["Promenad i närområdet eller längs Byälven", "Sällskap till torget eller parken", "Kortare rundor när vädret eller orken inte räcker till mer"],
-  },
-  {
-    id: "aktiviteter",
-    title: "Aktiviteter",
-    lead: "Det är lättare att komma iväg när man inte behöver gå ensam.",
-    examples: ["Sällskap till bibliotek, kyrka, föreningsträff eller loppis", "Handla tillsammans", "Ärenden på stan, till exempel posten eller banken"],
-  },
-  {
-    id: "hushall",
-    title: "Lättare hushållshjälp",
-    lead: "Små sysslor som annars blir liggande.",
-    examples: ["Vattna blommor och plocka undan", "Bära in varor och fylla på kylskåpet", "Diska, byta lakan eller byta en glödlampa"],
-  },
-  {
-    id: "planering",
-    title: "Vardagsplanering",
-    lead: "Lite struktur gör det enklare att få vardagen att gå ihop.",
-    examples: ["Skriva inköpslistor och veckoschema", "Påminna om och förbereda inför bokade tider", "Hjälp att komma igång med post, papper och mobil"],
-  },
-];
+export const metadata: Metadata = pageMetadata(
+  "/tjanster",
+  "Tjänster – vardagsstöd, sällskap och promenader",
+  "Vardagsstöd och sällskap i Säffle: ärenden, lättare hushållshjälp, teknikstöd, promenader, fika och högläsning. Ingen vård eller omsorg.",
+);
 
 export default function ServicesPage() {
   return (
     <>
       <PageIntro title="Tjänster">
         <p>
-          Besöken utgår från vad du vill göra. Samma timme kan rymma en promenad, en fika och ett ärende – vi
-          anpassar innehållet efter dagsformen.
+          Ett besök kan rymma en promenad, ett ärende och en kopp kaffe. Vi gör det du vill, inom gränserna
+          nedan.
         </p>
       </PageIntro>
 
       <div className={`${container} py-12 sm:py-16`}>
-        <nav aria-label="Tjänster på sidan" className="mb-10">
-          <ul className="flex flex-wrap gap-2">
-            {services.map((service) => (
-              <li key={service.id}>
-                <a
-                  href={`#${service.id}`}
-                  className="inline-flex min-h-11 items-center rounded-full border border-line bg-paper px-4 font-bold text-spruce no-underline hover:bg-sage"
-                >
-                  {service.title}
-                </a>
-              </li>
+        {services.map((group) => (
+          <section key={group.id} id={group.id} aria-labelledby={`${group.id}-rubrik`} className="mb-14">
+            <h2 id={`${group.id}-rubrik`} className="text-3xl font-semibold">
+              {group.category}
+            </h2>
+            <ul className="mt-6 grid gap-5 md:grid-cols-2">
+              {group.items.map((item) => (
+                <li key={item.title} className="rounded-2xl border border-line bg-paper p-6">
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <p className="mt-2 inline-block rounded-full bg-sage px-3 py-1 text-sm font-bold text-spruce">{item.rut}</p>
+                  <ul className="mt-4 list-disc space-y-1 pl-6 text-ink-soft">
+                    {item.examples.map((example) => (
+                      <li key={example}>{example}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+
+        <section aria-labelledby="inte-rubrik" className="rounded-2xl bg-sage p-6 sm:p-8">
+          <h2 id="inte-rubrik" className="text-2xl font-semibold">
+            Det här gör vi inte
+          </h2>
+          <ul className="mt-4 list-disc space-y-2 pl-6">
+            {notIncluded.map((item) => (
+              <li key={item}>{item}</li>
             ))}
           </ul>
-        </nav>
+        </section>
 
-        <div className="space-y-6">
-          {services.map((service) => (
-            <section
-              key={service.id}
-              id={service.id}
-              aria-labelledby={`${service.id}-rubrik`}
-              className="rounded-2xl border border-line bg-paper p-6 sm:p-8"
-            >
-              <h2 id={`${service.id}-rubrik`} className="text-2xl font-semibold sm:text-3xl">
-                {service.title}
-              </h2>
-              <p className="mt-2 text-lg">{service.lead}</p>
-              <ul className="mt-4 list-disc space-y-1 pl-6 text-ink-soft">
-                {service.examples.map((example) => (
-                  <li key={example}>{example}</li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
-
-        <section aria-labelledby="inte-rubrik" className="mt-12 rounded-2xl bg-sage p-6 sm:p-8">
-          <h2 id="inte-rubrik" className="text-2xl font-semibold">
-            Det här ingår inte
+        <section aria-labelledby="andra-rubrik" className="mt-8 rounded-2xl border-2 border-clay/40 bg-clay-soft p-6 sm:p-8">
+          <h2 id="andra-rubrik" className="text-2xl font-semibold">
+            Behöver du något annat?
           </h2>
-          <p className="mt-3">
-            Säffle Vardagssällskap är en privat tjänst för sällskap och lättare vardagshjälp. Vi är inte kommunal
-            hemtjänst och ersätter inte den. Vi utför ingen vård, personlig omvårdnad eller medicinsk hjälp, och vi
-            hanterar inte läkemedel. Behöver du sådant stöd kan du vända dig till Säffle kommun eller vården.
-          </p>
+          <p className="mt-3">Det här kan vi inte hjälpa till med. Här vänder du dig i stället:</p>
+          <dl className="mt-4 space-y-4">
+            {otherProviders.map((item) => (
+              <div key={item.need}>
+                <dt className="font-bold">{item.need}</dt>
+                <dd className="text-ink-soft">{item.who}</dd>
+              </div>
+            ))}
+          </dl>
         </section>
 
         <div className="mt-12">

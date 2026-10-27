@@ -2,22 +2,23 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { InquiryForm } from "@/components/InquiryForm";
 import { InquiryFormFromUrl } from "@/components/InquiryFormFromUrl";
-import { MailIcon, PhoneIcon } from "@/components/icons";
+import { MailIcon, PhoneIcon, SmsIcon } from "@/components/icons";
 import { PageIntro } from "@/components/PageIntro";
+import { pageMetadata } from "@/lib/metadata";
 import { site } from "@/lib/site";
 import { container } from "@/lib/ui";
 
-export const metadata: Metadata = {
-  title: "Kontakt",
-  description: `Ring ${site.phone.display} eller skicka en förfrågan till Säffle Vardagssällskap. Vi hjälper till i ${site.area}.`,
-  alternates: { canonical: "/kontakt" },
-};
+export const metadata: Metadata = pageMetadata(
+  "/kontakt",
+  "Kontakt",
+  `Ring ${site.phone.display}, skicka sms eller en förfrågan till Säffle Vardagssällskap. Vi hjälper till i ${site.area}.`,
+);
 
 export default function ContactPage() {
   return (
     <>
       <PageIntro title="Kontakt">
-        <p>Det enklaste är att ringa. Du kan också skicka en förfrågan, så hör vi av oss.</p>
+        <p>Det enklaste är att ringa. Du kan också skicka sms eller en förfrågan, så hör vi av oss.</p>
       </PageIntro>
 
       <div className={`${container} grid gap-12 py-12 sm:py-16 lg:grid-cols-[1fr_1.4fr]`}>
@@ -29,13 +30,27 @@ export default function ContactPage() {
             <li>
               <a
                 href={site.phone.href}
-                className="flex min-h-16 items-center gap-4 rounded-2xl border-2 border-spruce bg-paper p-5 text-ink no-underline hover:bg-sage"
+                className="flex min-h-16 items-center gap-4 rounded-2xl bg-spruce p-5 text-paper no-underline hover:bg-spruce-dark"
               >
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-spruce text-paper">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-paper text-spruce">
                   <PhoneIcon className="h-6 w-6" />
                 </span>
                 <span>
-                  <span className="block text-sm font-bold text-ink-soft">Ring</span>
+                  <span className="block text-sm font-bold">Ring</span>
+                  <span className="block text-2xl font-bold">{site.phone.display}</span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={site.phone.sms}
+                className="flex min-h-16 items-center gap-4 rounded-2xl border-2 border-spruce bg-paper p-5 text-ink no-underline hover:bg-sage"
+              >
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sage text-spruce">
+                  <SmsIcon className="h-6 w-6" />
+                </span>
+                <span>
+                  <span className="block text-sm font-bold text-ink-soft">Skicka sms</span>
                   <span className="block text-xl font-bold">{site.phone.display}</span>
                 </span>
               </a>
@@ -57,6 +72,9 @@ export default function ContactPage() {
           </ul>
           <p className="mt-6 text-ink-soft">
             Vi finns i {site.area}. Svarar vi inte direkt ringer vi upp så snart vi kan.
+          </p>
+          <p className="mt-4 rounded-xl border-2 border-clay/40 bg-clay-soft p-4 font-bold">
+            Skriv inte hälsouppgifter, diagnoser eller mediciner via e-post eller sms.
           </p>
         </section>
 

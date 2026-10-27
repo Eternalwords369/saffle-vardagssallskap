@@ -1,96 +1,127 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageIntro } from "@/components/PageIntro";
-import { site } from "@/lib/site";
+import { pageMetadata } from "@/lib/metadata";
+import { site, terms } from "@/lib/site";
 import { container, textLink } from "@/lib/ui";
 
-export const metadata: Metadata = {
-  title: "Integritet",
-  description: "Så hanterar Säffle Vardagssällskap personuppgifter när du kontaktar oss.",
-  alternates: { canonical: "/integritet" },
-};
+export const metadata: Metadata = pageMetadata(
+  "/integritet",
+  "Integritet",
+  "Så hanterar Säffle Vardagssällskap personuppgifter: vilka uppgifter vi behöver, hur länge de sparas och hur du får dem raderade.",
+);
 
-// BEKRÄFTA: Texten är ett utkast. Komplettera med personuppgiftsansvarig
-// (firmanamn och organisationsnummer) innan lansering.
-
+// TODO: Låt någon kunnig granska texten mot GDPR, särskilt överföring via Gmail och lagringstider.
 export default function PrivacyPage() {
   return (
     <>
       <PageIntro title="Integritet">
-        <p>Kort och begripligt om vilka uppgifter vi tar emot och vad vi gör med dem.</p>
+        <p>Vi tar bara emot de uppgifter vi behöver för att svara dig och planera besök.</p>
       </PageIntro>
 
       <div className={`${container} py-12 sm:py-16`}>
         <div className="max-w-3xl space-y-10 text-lg">
-          <section aria-labelledby="webbplatsen">
-            <h2 id="webbplatsen" className="text-2xl font-semibold">
-              Webbplatsen
+          <section aria-labelledby="ansvarig" className="space-y-3">
+            <h2 id="ansvarig" className="text-2xl font-semibold">
+              Personuppgiftsansvarig
             </h2>
-            <p className="mt-3">
-              Webbplatsen har ingen inloggning, inga kundkonton och ingen databas. Vi använder inga kakor för
-              spårning eller marknadsföring och inga analysverktyg. Vår driftsleverantör kan som alla webbservrar
-              tillfälligt registrera tekniska uppgifter, till exempel IP-adress, för att leverera sidorna och skydda
-              mot missbruk.
+            <p>
+              {site.legalName}, organisationsnummer {site.orgNumber}, som driver {site.name}. Nås på{" "}
+              <a href={site.phone.href} className={textLink}>
+                {site.phone.display}
+              </a>{" "}
+              eller{" "}
+              <a href={`mailto:${site.email}`} className={`${textLink} break-all`}>
+                {site.email}
+              </a>
+              .
             </p>
           </section>
 
-          <section aria-labelledby="forfragningar">
-            <h2 id="forfragningar" className="text-2xl font-semibold">
-              När du kontaktar oss
+          <section aria-labelledby="webbplatsen" className="space-y-3">
+            <h2 id="webbplatsen" className="text-2xl font-semibold">
+              Webbplatsen
             </h2>
-            <p className="mt-3">
-              Förfrågningsformuläret skickar ingenting själv. Det öppnar din egen e-postapp med ett färdigt
-              meddelande, och det är först när du skickar mejlet som vi får uppgifterna. Detsamma gäller när du
-              ringer eller mejlar oss direkt.
+            <p>
+              Webbplatsen har ingen inloggning, inga kundkonton och ingen databas. Vi använder inga kakor för spårning
+              eller marknadsföring och inga analysverktyg. Driftsleverantören kan, som alla webbservrar, tillfälligt
+              registrera tekniska uppgifter som IP-adress för att leverera sidorna och skydda mot missbruk.
             </p>
-            <p className="mt-3">Vi tar emot de uppgifter du själv lämnar, vanligtvis:</p>
-            <ul className="mt-2 list-disc space-y-1 pl-6">
+            <p>
+              Förfrågningsformuläret skickar ingenting själv. Det öppnar din egen e-postapp med ett färdigt meddelande,
+              och vi får uppgifterna först när du skickar mejlet.
+            </p>
+          </section>
+
+          <section aria-labelledby="uppgifter" className="space-y-3">
+            <h2 id="uppgifter" className="text-2xl font-semibold">
+              Vilka uppgifter vi behöver
+            </h2>
+            <p>När du hör av dig:</p>
+            <ul className="list-disc space-y-1 pl-6">
               <li>namn</li>
               <li>telefonnummer eller e-postadress</li>
               <li>vad du vill ha hjälp med och vilka dagar som passar</li>
             </ul>
-            <p className="mt-3">
-              Vi använder uppgifterna för att svara dig och, om du vill, planera besök. Den rättsliga grunden är
-              att du själv har bett oss om kontakt och att vi vidtar åtgärder inför ett eventuellt avtal.
+            <p>Om du blir kund behöver vi dessutom:</p>
+            <ul className="list-disc space-y-1 pl-6">
+              <li>adress, så att vi hittar hem till dig</li>
+              <li>personnummer för den som ska ha RUT-avdrag, eftersom Skatteverket kräver det</li>
+              <li>namn och telefonnummer till en kontaktperson, om du vill att vi ska kunna nå någon</li>
+            </ul>
+            <p>
+              Vi använder uppgifterna för att svara dig, planera besök, fakturera och ansöka om RUT. Den rättsliga
+              grunden är avtalet med dig, åtgärder inför ett avtal och bokföringslagen.
             </p>
           </section>
 
-          <section aria-labelledby="kansliga">
+          <section aria-labelledby="kansliga" className="space-y-3 rounded-2xl border-2 border-clay/40 bg-clay-soft p-5 sm:p-6">
             <h2 id="kansliga" className="text-2xl font-semibold">
-              Skicka inga känsliga uppgifter
+              Skicka inga hälsouppgifter
             </h2>
-            <p className="mt-3">
-              Skriv inte om hälsa, diagnoser, mediciner eller andra känsliga uppgifter i mejl eller sms. Vi behöver
-              inte sådana uppgifter för att erbjuda sällskap och vardagshjälp.
+            <p>
+              Skriv inte hälsouppgifter, diagnoser eller mediciner i e-post, sms eller formuläret. Vanlig e-post är inte
+              skyddad, och vi behöver inte sådana uppgifter för att erbjuda sällskap och vardagshjälp. Finns det något
+              vi bör känna till för att besöket ska bli bra, till exempel att du hör dåligt, tar vi det när vi ses.
             </p>
           </section>
 
-          <section aria-labelledby="lagring">
+          <section aria-labelledby="dela" className="space-y-3">
+            <h2 id="dela" className="text-2xl font-semibold">
+              Vem som får del av uppgifterna
+            </h2>
+            {/* TODO: Bekräfta om Gmail är rätt e-posttjänst och om personuppgiftsbiträdesavtal behövs. */}
+            <p>
+              Vi säljer aldrig uppgifter. De lämnas bara till Skatteverket för RUT-avdrag, till vår redovisningskonsult
+              för bokföringen och till den kontaktperson du själv har sagt ja till. E-post hanteras i Gmail (Google).
+            </p>
+          </section>
+
+          <section aria-labelledby="lagring" className="space-y-3">
             <h2 id="lagring" className="text-2xl font-semibold">
-              Hur länge sparas uppgifterna?
+              Hur länge uppgifterna sparas
             </h2>
-            <p className="mt-3">
-              Leder förfrågan inte till ett avtal raderar vi uppgifterna senast tolv månader efter vår senaste
-              kontakt. Blir du kund sparar vi dem så länge avtalet gäller och därefter så länge lagen kräver, till
-              exempel bokföringslagen.
+            <ul className="list-disc space-y-1 pl-6">
+              <li>
+                Förfrågningar som inte leder till avtal raderas senast {terms.retentionMonths} månader efter vår senaste
+                kontakt.
+              </li>
+              <li>Kunduppgifter sparas så länge avtalet gäller och raderas när det har upphört.</li>
+              <li>Fakturor och underlag för RUT sparas i sju år efter årets slut, eftersom bokföringslagen kräver det.</li>
+            </ul>
+            <p>
+              Varje månad går vi igenom mejl, sms och samtalslistor och raderar det som har passerat tiderna ovan.
             </p>
           </section>
 
-          <section aria-labelledby="rattigheter">
+          <section aria-labelledby="rattigheter" className="space-y-3">
             <h2 id="rattigheter" className="text-2xl font-semibold">
               Dina rättigheter
             </h2>
-            <p className="mt-3">
-              Du har rätt att få veta vilka uppgifter vi har om dig, att få fel rättade och att få uppgifterna
-              raderade. Kontakta oss på{" "}
-              <a href={`mailto:${site.email}`} className={`${textLink} break-all`}>
-                {site.email}
-              </a>{" "}
-              eller{" "}
-              <a href={site.phone.href} className={textLink}>
-                {site.phone.display}
-              </a>
-              . Är du missnöjd med hur vi hanterar dina uppgifter kan du vända dig till Integritetsskyddsmyndigheten
+            <p>
+              Du har rätt att få veta vilka uppgifter vi har om dig, att få fel rättade och att få uppgifterna raderade
+              om vi inte måste spara dem enligt lag. Hör av dig på telefon eller e-post så ordnar vi det inom en månad.
+              Är du missnöjd med hur vi hanterar dina uppgifter kan du vända dig till Integritetsskyddsmyndigheten
               (IMY).
             </p>
           </section>

@@ -1,43 +1,37 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ContactActions } from "@/components/ContactActions";
 import { PageIntro } from "@/components/PageIntro";
-import { PendingTerms } from "@/components/PendingTerms";
 import { PlanCard } from "@/components/PlanCard";
-import { plans } from "@/lib/site";
-import { container, textLink } from "@/lib/ui";
+import { PriceNote } from "@/components/PriceNote";
+import { PhoneIcon } from "@/components/icons";
+import { pageMetadata } from "@/lib/metadata";
+import { afterRut, formatPrice, plans, pricing, site, type Plan } from "@/lib/site";
+import { buttonPrimary, buttonSecondary, container, textLink } from "@/lib/ui";
 
-export const metadata: Metadata = {
-  title: "Abonnemang och priser",
-  description:
-    "Tre abonnemang för sällskap och vardagshjälp i Säffle: Lilla stunden, Vardagssällskap och Aktiv vardag. Fast tid varje vecka och fast månadspris.",
-  alternates: { canonical: "/abonnemang" },
-};
+export const metadata: Metadata = pageMetadata(
+  "/abonnemang",
+  "Abonnemang och priser",
+  `Månadspaket för sällskap och vardagshjälp i Säffle: 4, 8 eller 12 timmar i månaden. Priser inklusive moms, RUT-avdrag där det gäller. Social aktivitet ${pricing.social.hourly} kr/timme.`,
+);
 
-const faq = [
-  {
-    q: "Varför abonnemang?",
-    a: "För att det blir en vana. Samma dag och tid varje vecka gör det lättare att planera, och besöken blir något att se fram emot.",
-  },
-  {
-    q: "Kan vi dela upp timmarna?",
-    a: "Ja, i paketen med två och tre timmar kan tiden delas på flera besök i veckan. Vi bestämmer upplägget tillsammans.",
-  },
-  {
-    q: "Kan en anhörig beställa?",
-    a: "Ja, det går bra att ett barn, barnbarn eller en vän hör av sig. Vi vill alltid träffa och prata med den som ska få besöken, så att hen själv vill ha dem.",
-  },
-  {
-    q: "Kan jag byta paket?",
-    a: "Tanken är att du ska kunna byta när behoven ändras. Hur och när det kan ske står i villkoren du får innan avtal.",
-  },
+const rows = [
+  { label: "Timmar per månad", value: (p: Plan) => `${p.hoursPerMonth} h` },
+  { label: "Besök per månad", value: (p: Plan) => `${p.visitsPerMonth} à ${pricing.visitHours} h` },
+  { label: "Pris inkl. moms", value: (p: Plan) => formatPrice(p.price) },
+  { label: "Efter RUT, om all tid ger RUT", value: (p: Plan) => formatPrice(afterRut(p.price)) },
+  { label: "Per timme efter RUT", value: (p: Plan) => formatPrice(afterRut(p.price) / p.hoursPerMonth) },
 ];
 
 export default function PlansPage() {
+  const { social } = pricing;
+
   return (
     <>
       <PageIntro title="Abonnemang">
-        <p>Välj hur mycket tid du vill ha varje vecka. Innehållet i besöken bestämmer du.</p>
+        <p>
+          Välj hur många timmar du vill ha i månaden. Besöken är normalt {pricing.visitHours} timmar, på samma dag
+          och tid. Vad ni gör bestämmer du.
+        </p>
       </PageIntro>
 
       <div className={`${container} py-12 sm:py-16`}>
@@ -47,37 +41,85 @@ export default function PlansPage() {
           ))}
         </div>
 
-        <div className="mt-10">
-          <PendingTerms />
-        </div>
-
-        <section aria-labelledby="fragor-rubrik" className="mt-14">
-          <h2 id="fragor-rubrik" className="text-3xl font-semibold">
-            Vanliga frågor
+        <section aria-labelledby="social-rubrik" className="mt-8 rounded-2xl border-2 border-line bg-paper p-6 sm:p-8">
+          <h2 id="social-rubrik" className="text-2xl font-semibold">
+            {social.name} – sällskap utan RUT
           </h2>
-          <div className="mt-6 divide-y divide-line rounded-2xl border border-line bg-paper">
-            {faq.map((item) => (
-              <details key={item.q} className="group p-5 sm:p-6">
-                <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between gap-4 text-lg font-bold [&::-webkit-details-marker]:hidden">
-                  {item.q}
-                  <span aria-hidden="true" className="text-2xl text-spruce transition-transform group-open:rotate-45">
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-ink-soft">{item.a}</p>
-              </details>
-            ))}
-          </div>
-          <p className="mt-6">
-            Se även <Link href="/om-oss#sa-fungerar-det" className={textLink}>hur det fungerar</Link>.
+          <p className="mt-3">
+            <span className="font-serif text-3xl font-semibold">{formatPrice(social.hourly)}</span>
+            <span className="text-ink-soft"> / timme inkl. moms, minst {social.minHours} timmar</span>
           </p>
+          <p className="mt-3 max-w-2xl text-ink-soft">
+            För dig som vill ha sällskap till kyrkkaffet, en konsert eller en loppisrunda, utan fast abonnemang. Ger
+            inte RUT-avdrag. Biljetter och fika betalar du själv.
+          </p>
+          <Link href={`/kontakt?paket=${social.id}#forfragan`} className={`${buttonSecondary} mt-6`}>
+            Fråga om {social.name.toLowerCase()}
+          </Link>
         </section>
 
-        <div className="mt-14">
-          <h2 className="text-2xl font-semibold">Osäker på vilket paket som passar?</h2>
-          <p className="mt-2 text-ink-soft">Ring, så hjälper vi dig att välja. Det är helt okej att börja i det mindre.</p>
-          <ContactActions className="mt-6" />
+        <section aria-labelledby="jamfor-rubrik" className="mt-14">
+          <h2 id="jamfor-rubrik" className="text-3xl font-semibold">
+            Jämför paketen
+          </h2>
+          <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-paper" tabIndex={0} role="region" aria-label="Jämförelsetabell, går att skrolla i sidled">
+            <table className="w-full text-left text-base">
+              <thead>
+                <tr className="border-b border-line">
+                  <td className="p-2 sm:p-4" />
+                  {plans.map((plan) => (
+                    <th key={plan.id} scope="col" className="p-2 font-serif text-lg font-semibold sm:p-4 sm:text-xl">
+                      {plan.name}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line">
+                {rows.map((row) => (
+                  <tr key={row.label}>
+                    <th scope="row" className="p-2 font-bold sm:p-4">
+                      {row.label}
+                    </th>
+                    {plans.map((plan) => (
+                      <td key={plan.id} className="p-2 whitespace-nowrap sm:p-4">
+                        {row.value(plan)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div className="mt-10">
+          <PriceNote />
         </div>
+
+        <section aria-labelledby="valja-rubrik" className="mt-14">
+          <h2 id="valja-rubrik" className="text-2xl font-semibold">
+            Osäker på vilket paket som passar?
+          </h2>
+          <p className="mt-2 text-ink-soft">
+            Ring eller skicka ett sms, så hjälper vi dig att välja. Det går bra att börja i det minsta och byta senare.
+          </p>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href={site.phone.href} className={buttonPrimary}>
+              <PhoneIcon />
+              Ring {site.phone.display}
+            </a>
+            <a href={site.phone.sms} className={buttonSecondary}>
+              Skicka sms
+            </a>
+            <Link href="/kontakt#forfragan" className={buttonSecondary}>
+              Skicka en förfrågan
+            </Link>
+          </div>
+          <p className="mt-6">
+            Se även <Link href="/villkor" className={textLink}>villkoren</Link> och{" "}
+            <Link href="/#vanliga-fragor" className={textLink}>vanliga frågor</Link>.
+          </p>
+        </section>
       </div>
     </>
   );

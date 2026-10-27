@@ -11,7 +11,7 @@ export function ContactActions({ className = "" }: { className?: string }) {
         Ring {site.phone.display}
       </a>
       <Link href="/kontakt#forfragan" className={buttonSecondary}>
-        Skicka en förfrågan
+        Skicka förfrågan
       </Link>
     </div>
   );

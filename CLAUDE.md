@@ -23,8 +23,9 @@ Kör lint, typecheck och build innan varje commit. Alla tre ska ge 0 fel och 0 v
 
 ## Struktur
 
-- `lib/site.ts` – enda källan för namn, telefon, e-post, paket, priser och
-  ej fastställda villkor (`pendingTerms`). Hårdkoda aldrig sådana uppgifter i sidor.
+- `lib/site.ts` – enda källan för namn, telefon, e-post, paket, priser, RUT-text,
+  tjänster, avgränsningar, villkorsuppgifter (`terms`) och FAQ. Hårdkoda aldrig
+  sådana uppgifter i sidor.
 - `lib/ui.ts` – delade klasser för knappar, länkar och container. Använd dem i
   stället för nya varianter.
 - `app/` – en mapp per sida med svenska URL:er utan å/ä/ö (`/tjanster`, `/om-oss`).
@@ -52,11 +53,13 @@ Kör lint, typecheck och build innan varje commit. Alla tre ska ge 0 fel och 0 v
 - Förfrågningsformuläret öppnar besökarens e-postapp (`mailto`). Det får inte
   efterfråga hälsa, diagnoser, läkemedel eller andra känsliga uppgifter.
 - Beskriv aldrig verksamheten som kommunal hemtjänst, vård, omsorg eller medicinsk hjälp.
-- Inga påståenden om försäkring, F-skatt, certifieringar, RUT, myndighetsgodkännanden,
+- Inga påståenden om försäkring, F-skatt, certifieringar, myndighetsgodkännanden,
   antal kunder, omdömen eller "populäraste paket" förrän ägaren har verifierat dem.
-- Priser, moms, resor, avtalsperiod och avbokning är preliminära tills
-  `LANSERING.md` säger annat. Visa dem som preliminära på sajten och lägg inte in
-  priser i strukturerad data (`components/JsonLd.tsx`).
+- RUT (ägarbeslut okt 2026): priser får visas efter RUT, men alltid tillsammans med
+  priset inklusive moms före RUT och förbehållet att RUT bara gäller berättigade
+  arbetsmoment och kunder (`rutNote`). Skriv aldrig att en hel tjänst garanterat ger RUT.
+- Pilotpriser och villkor bekräftas skriftligt före avtal tills `LANSERING.md` säger
+  annat. Lägg inte in priser i strukturerad data (`components/JsonLd.tsx`).
 - Inga hemligheter eller API-nycklar i koden eller i GitHub. `NEXT_PUBLIC_SITE_URL`
   är den enda miljövariabeln och den är inte hemlig.
 
