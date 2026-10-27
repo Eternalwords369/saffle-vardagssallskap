@@ -13,9 +13,9 @@ hemligheter behövs.
 
 | Sökväg | Innehåll |
 | --- | --- |
-| `lib/site.ts` | Kontaktuppgifter, paket och priser – ändra här |
+| `lib/site.ts` | Kontaktuppgifter, paket, priser, RUT-text, tjänster, villkorsuppgifter och FAQ – ändra här |
 | `app/` | Sidor: start, tjänster, abonnemang, om oss, kontakt, integritet, villkor |
-| `components/` | Sidhuvud, meny, sidfot, paketkort, förfrågningsformulär |
+| `components/` | Sidhuvud, meny, sidfot, paketkort, RUT-ruta, förfrågningsformulär |
 | `app/sitemap.ts`, `app/robots.ts` | Sökmotorfiler |
 
 ## Köra lokalt

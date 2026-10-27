@@ -62,13 +62,13 @@ export default function PlansPage() {
           <h2 id="jamfor-rubrik" className="text-3xl font-semibold">
             Jämför paketen
           </h2>
-          <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-paper" tabIndex={0} role="region" aria-labelledby="jamfor-rubrik">
-            <table className="w-full min-w-[34rem] text-left">
+          <div className="mt-6 overflow-x-auto rounded-2xl border border-line bg-paper" tabIndex={0} role="region" aria-label="Jämförelsetabell, går att skrolla i sidled">
+            <table className="w-full text-left text-base">
               <thead>
                 <tr className="border-b border-line">
-                  <td className="p-4" />
+                  <td className="p-2 sm:p-4" />
                   {plans.map((plan) => (
-                    <th key={plan.id} scope="col" className="p-4 font-serif text-xl font-semibold">
+                    <th key={plan.id} scope="col" className="p-2 font-serif text-lg font-semibold sm:p-4 sm:text-xl">
                       {plan.name}
                     </th>
                   ))}
@@ -77,11 +77,11 @@ export default function PlansPage() {
               <tbody className="divide-y divide-line">
                 {rows.map((row) => (
                   <tr key={row.label}>
-                    <th scope="row" className="p-4 font-bold">
+                    <th scope="row" className="p-2 font-bold sm:p-4">
                       {row.label}
                     </th>
                     {plans.map((plan) => (
-                      <td key={plan.id} className="p-4 whitespace-nowrap">
+                      <td key={plan.id} className="p-2 whitespace-nowrap sm:p-4">
                         {row.value(plan)}
                       </td>
                     ))}
