@@ -102,7 +102,7 @@ export default function Home() {
           Tre abonnemang
         </h2>
         <p className="mt-3 max-w-2xl text-lg text-ink-soft">
-          Samma tid varje vecka, ett fast månadspris. Priserna är preliminära och bekräftas innan avtal.
+          Samma dag och tid, ett fast månadspris inklusive moms. RUT-avdrag för den tid som ger rätt till det.
         </p>
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {plans.map((plan) => (

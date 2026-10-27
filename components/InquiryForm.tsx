@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { plans, site } from "@/lib/site";
+import { plans, pricing, site } from "@/lib/site";
 import { buttonPrimary, textLink } from "@/lib/ui";
 
 // Formuläret skickar ingenting till någon server. Det sätter ihop ett
@@ -20,6 +20,11 @@ type Fields = {
 type Errors = Partial<Record<keyof Fields, string>>;
 
 const MESSAGE_MAX = 800;
+
+export const planOptions = [
+  ...plans.map((plan) => ({ id: plan.id, label: `${plan.name} – ${plan.hoursPerMonth} timmar per månad` })),
+  { id: pricing.social.id, label: `${pricing.social.name} – per timme, utan RUT` },
+];
 
 const emptyFields: Fields = { name: "", contact: "", forWhom: "", plan: "", message: "" };
 
@@ -58,7 +63,7 @@ const fieldLabels: Record<keyof Fields, string> = {
 };
 
 function buildMailto(fields: Fields) {
-  const planName = plans.find((plan) => plan.id === fields.plan)?.name ?? "Vet inte än";
+  const planName = planOptions.find((plan) => plan.id === fields.plan)?.label ?? "Vet inte än";
   const lines = [
     "Hej!",
     "",
@@ -241,9 +246,9 @@ export function InquiryForm({ initialPlan = "" }: { initialPlan?: string }) {
           className={inputClass("plan")}
         >
           <option value="">Vet inte än</option>
-          {plans.map((plan) => (
+          {planOptions.map((plan) => (
             <option key={plan.id} value={plan.id}>
-              {plan.name} – {plan.hoursPerWeek} {plan.hoursPerWeek === 1 ? "timme" : "timmar"} per vecka
+              {plan.label}
             </option>
           ))}
         </select>
@@ -254,8 +259,7 @@ export function InquiryForm({ initialPlan = "" }: { initialPlan?: string }) {
           Vad vill du ha hjälp med? <span className="font-normal text-ink-soft">(valfritt)</span>
         </label>
         <p id="message-hint" className="mt-1 text-ink-soft">
-          Till exempel ”promenad och fika på tisdagar”. Skriv inte om hälsa, diagnoser eller andra känsliga
-          uppgifter – sådant tar vi i så fall personligen.
+          Till exempel ”promenad och handla på tisdagar”. Skriv inte hälsouppgifter, diagnoser eller mediciner.
         </p>
         <textarea
           id="message"
@@ -289,22 +293,29 @@ export function InquiryForm({ initialPlan = "" }: { initialPlan?: string }) {
         Skriv förfrågan i e-posten
       </button>
 
-      {opened && (
-        <div ref={statusRef} tabIndex={-1} role="status" className="rounded-xl border-2 border-spruce bg-paper p-5">
-          <p className="font-bold">Nu bör din e-postapp ha öppnats.</p>
-          <p className="mt-1">
-            Hände inget? Ring oss på{" "}
-            <a href={site.phone.href} className={textLink}>
-              {site.phone.display}
-            </a>{" "}
-            eller skicka ett mejl direkt till{" "}
-            <a href={`mailto:${site.email}`} className={`${textLink} break-all`}>
-              {site.email}
-            </a>
-            .
-          </p>
-        </div>
-      )}
+      <div
+        ref={statusRef}
+        tabIndex={-1}
+        role="status"
+        className={`rounded-xl border-2 p-5 ${opened ? "border-spruce bg-paper" : "border-line bg-linen"}`}
+      >
+        {opened && <p className="mb-1 font-bold">Nu bör din e-postapp ha öppnats.</p>}
+        <p>
+          {opened ? "Hände inget?" : "Öppnas ingen e-postapp?"} Ring{" "}
+          <a href={site.phone.href} className={textLink}>
+            {site.phone.display}
+          </a>
+          , skicka ett{" "}
+          <a href={site.phone.sms} className={textLink}>
+            sms
+          </a>{" "}
+          eller mejla direkt till{" "}
+          <a href={`mailto:${site.email}`} className={`${textLink} break-all`}>
+            {site.email}
+          </a>
+          .
+        </p>
+      </div>
     </form>
   );
 }

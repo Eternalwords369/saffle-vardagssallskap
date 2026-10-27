@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageIntro } from "@/components/PageIntro";
-import { PendingTerms } from "@/components/PendingTerms";
+import { PriceNote } from "@/components/PriceNote";
 import { container, textLink } from "@/lib/ui";
 
 export const metadata: Metadata = {
@@ -22,7 +22,7 @@ export default function TermsPage() {
 
       <div className={`${container} py-12 sm:py-16`}>
         <div className="max-w-3xl space-y-10 text-lg">
-          <PendingTerms />
+          <PriceNote />
 
           <section aria-labelledby="redan-nu">
             <h2 id="redan-nu" className="text-2xl font-semibold">
